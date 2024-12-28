@@ -1,6 +1,14 @@
-import "@/styles/globals.css";
-import type { AppProps } from "next/app";
+import "../styles/globals.css";
+import { permanentMarker, spaceGrotesk, outfit } from "../lib/fonts";
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
+function MyApp({ Component, pageProps }) {
+  return (
+    <main
+      className={`${permanentMarker.variable} ${spaceGrotesk.variable} ${outfit.variable}`}
+    >
+      <Component {...pageProps} />
+    </main>
+  );
 }
+
+export default MyApp;
