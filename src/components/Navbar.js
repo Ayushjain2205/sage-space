@@ -31,7 +31,11 @@ const Navbar = () => {
           </Link>
           <Link
             href="/create"
-            className="font-space-grotesk text-lg text-[#E0AAFF] hover:text-[#C77DFF]"
+            className={`font-space-grotesk text-lg ${
+              router.pathname === "/create"
+                ? "text-[#3BF4FB] border-b-2 border-[#3BF4FB]"
+                : "text-[#E0AAFF] hover:text-[#C77DFF]"
+            }`}
           >
             Create
           </Link>
