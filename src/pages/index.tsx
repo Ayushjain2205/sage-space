@@ -1,5 +1,5 @@
 import Layout from "../components/Layout";
-import AICompanionShowcase from "../components/AICompanionShowcase";
+import AICompanionShowcase from "../components/AiCompanionShowcase";
 
 export default function Home() {
   return (
