@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ImagePlus, AlertCircle } from "lucide-react";
+import { ImagePlus, AlertCircle, Upload, X, Plus } from "lucide-react";
 import Image from "next/image";
 
 interface FormData {
@@ -11,6 +11,8 @@ interface FormData {
   telegramBotName: string;
   telegramToken: string;
   specialties: string[];
+  knowledgeFiles: File[];
+  knowledgeLinks: string[];
 }
 
 const COMPANION_TYPES = [
@@ -55,9 +57,14 @@ export default function CreateCompanionForm() {
     telegramBotName: "",
     telegramToken: "",
     specialties: [],
+    knowledgeFiles: [],
+    knowledgeLinks: [],
   });
 
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [newLink, setNewLink] = useState("");
+  const [customSpecialty, setCustomSpecialty] = useState("");
+  const [showCustomInput, setShowCustomInput] = useState(false);
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -84,6 +91,51 @@ export default function CreateCompanionForm() {
         ? prev.specialties.filter((s) => s !== specialty)
         : [...prev.specialties, specialty],
     }));
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    setFormData((prev) => ({
+      ...prev,
+      knowledgeFiles: [...prev.knowledgeFiles, ...files],
+    }));
+  };
+
+  const handleRemoveFile = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      knowledgeFiles: prev.knowledgeFiles.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleAddLink = () => {
+    if (newLink.trim()) {
+      setFormData((prev) => ({
+        ...prev,
+        knowledgeLinks: [...prev.knowledgeLinks, newLink.trim()],
+      }));
+      setNewLink("");
+    }
+  };
+
+  const handleRemoveLink = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      knowledgeLinks: prev.knowledgeLinks.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleAddCustomSpecialty = () => {
+    if (
+      customSpecialty.trim() &&
+      !formData.specialties.includes(customSpecialty.trim())
+    ) {
+      setFormData((prev) => ({
+        ...prev,
+        specialties: [...prev.specialties, customSpecialty.trim()],
+      }));
+      setCustomSpecialty("");
+    }
   };
 
   return (
@@ -209,6 +261,149 @@ export default function CreateCompanionForm() {
                 {specialty}
               </button>
             ))}
+            {formData.specialties
+              .filter((s) => !SPECIALTIES.includes(s))
+              .map((customSpecialty) => (
+                <button
+                  key={customSpecialty}
+                  type="button"
+                  onClick={() => handleSpecialtyToggle(customSpecialty)}
+                  className="bg-[#3BF4FB] text-[#10002B] px-3 py-1 rounded-full font-outfit text-sm transition-colors"
+                >
+                  {customSpecialty}
+                </button>
+              ))}
+            <div className="relative">
+              <button
+                type="button"
+                onMouseEnter={() => setShowCustomInput(true)}
+                onMouseLeave={() => setShowCustomInput(false)}
+                className="px-3 py-1 rounded-full font-outfit text-sm bg-[#44318D] text-[#E0AAFF] hover:bg-[#3BF4FB] hover:text-[#10002B] transition-colors flex items-center"
+              >
+                <Plus size={14} className="mr-1" />
+                Add Custom
+              </button>
+              {showCustomInput && (
+                <div
+                  className="absolute top-0 left-0 flex"
+                  onMouseEnter={() => setShowCustomInput(true)}
+                  onMouseLeave={() => setShowCustomInput(false)}
+                >
+                  <input
+                    type="text"
+                    value={customSpecialty}
+                    onChange={(e) => setCustomSpecialty(e.target.value)}
+                    placeholder="Custom specialty"
+                    className="bg-[#44318D] text-[#E0AAFF] rounded-l-full px-3 py-1 font-outfit text-sm focus:outline-none focus:ring-2 focus:ring-[#3BF4FB] w-32"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddCustomSpecialty}
+                    className="bg-[#3BF4FB] text-[#10002B] rounded-r-full px-3 py-1 font-outfit text-sm hover:bg-[#44318D] hover:text-[#E0AAFF] transition-colors"
+                  >
+                    Add
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Knowledge Section */}
+      <div className="bg-[#7B2CBF] rounded-lg p-8 mb-8 shadow-lg">
+        <h2 className="text-2xl font-bold mb-6 font-space-grotesk text-[#3BF4FB]">
+          Knowledge Base
+        </h2>
+        <div className="space-y-6">
+          {/* File Upload */}
+          <div>
+            <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
+              Upload Files
+            </label>
+            <div className="flex items-center space-x-2">
+              <label className="cursor-pointer bg-[#3BF4FB] text-[#10002B] px-4 py-2 rounded-lg font-space-grotesk hover:bg-[#44318D] hover:text-[#E0AAFF] transition-colors">
+                <Upload className="inline-block mr-2" size={18} />
+                Choose Files
+                <input
+                  type="file"
+                  multiple
+                  onChange={handleFileUpload}
+                  className="hidden"
+                />
+              </label>
+              <span className="text-[#E0AAFF] font-outfit">
+                {formData.knowledgeFiles.length} file(s) selected
+              </span>
+            </div>
+            {formData.knowledgeFiles.length > 0 && (
+              <ul className="mt-2 space-y-1">
+                {formData.knowledgeFiles.map((file, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center justify-between bg-[#44318D] text-[#E0AAFF] rounded px-3 py-2"
+                  >
+                    <span className="font-outfit truncate">{file.name}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveFile(index)}
+                      className="text-[#E0AAFF] hover:text-[#3BF4FB]"
+                    >
+                      <X size={18} />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          {/* Link Input */}
+          <div>
+            <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
+              Add Links
+            </label>
+            <div className="flex space-x-2">
+              <input
+                type="url"
+                value={newLink}
+                onChange={(e) => setNewLink(e.target.value)}
+                placeholder="https://example.com"
+                className="flex-grow bg-[#44318D] text-[#E0AAFF] rounded-lg px-4 py-2 font-outfit focus:outline-none focus:ring-2 focus:ring-[#3BF4FB]"
+              />
+              <button
+                type="button"
+                onClick={handleAddLink}
+                className="bg-[#3BF4FB] text-[#10002B] px-4 py-2 rounded-lg font-space-grotesk hover:bg-[#44318D] hover:text-[#E0AAFF] transition-colors"
+              >
+                Add
+              </button>
+            </div>
+            {formData.knowledgeLinks.length > 0 && (
+              <ul className="mt-2 space-y-1">
+                {formData.knowledgeLinks.map((link, index) => (
+                  <li
+                    key={index}
+                    className="flex items-center justify-between bg-[#44318D] text-[#E0AAFF] rounded px-3 py-2"
+                  >
+                    <a
+                      href={link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-outfit truncate hover:text-[#3BF4FB]"
+                    >
+                      {link}
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveLink(index)}
+                      className="text-[#E0AAFF] hover:text-[#3BF4FB]"
+                    >
+                      <X size={18} />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </div>
