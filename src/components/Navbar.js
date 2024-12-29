@@ -1,6 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { ConnectButton } from "thirdweb/react";
+import { client } from "@/lib/client";
+import { bscTestnet } from "thirdweb/chains";
 
 const Navbar = () => {
   const router = useRouter();
@@ -41,9 +44,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex-1 flex justify-end">
-          <button className="bg-[#7B2CBF] text-[#E0AAFF] font-space-grotesk px-4 py-2 rounded-lg hover:bg-[#9D4EDD] transition-colors duration-300">
-            Connect Wallet
-          </button>
+          <ConnectButton client={client} chain={bscTestnet} />
         </div>
       </div>
     </nav>
