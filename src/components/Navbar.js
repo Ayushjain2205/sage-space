@@ -44,7 +44,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex-1 flex justify-end">
-          <ConnectButton client={client} chain={bscTestnet} />
+          <ConnectButton client={client} chain={bscTestnet} theme={"light"} />
         </div>
       </div>
     </nav>

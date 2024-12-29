@@ -355,26 +355,6 @@ export default function BasicForm({
           Telegram Integration
         </h2>
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-space-grotesk text-[#E0AAFF]">
-              Telegram Configuration
-            </h3>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="enable-telegram"
-                checked={formData.enableTelegram}
-                onCheckedChange={(checked) =>
-                  setFormData((prev) => ({ ...prev, enableTelegram: checked }))
-                }
-              />
-              <label
-                htmlFor="enable-telegram"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#E0AAFF]"
-              >
-                Enable Telegram
-              </label>
-            </div>
-          </div>
           <div>
             <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
               Bot Name
