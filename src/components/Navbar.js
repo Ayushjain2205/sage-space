@@ -11,9 +11,8 @@ const Navbar = () => {
         <div className="flex-1">
           <Link
             href="/"
-            className="font-permanent-marker text-2xl text-[#3BF4FB] flex items-center gap-2"
+            className="font-permanent-marker text-2xl text-[#3BF4FB]"
           >
-            <img src="/sage.svg" alt="" className="w-12 h-12" />
             SageSpace
           </Link>
         </div>
@@ -42,7 +41,7 @@ const Navbar = () => {
         </div>
 
         <div className="flex-1 flex justify-end">
-          <button className="bg-[#7B2CBF] text-[#E0AAFF] font-space-grotesk px-4 py-2 rounded hover:bg-[#9D4EDD] transition-colors duration-300">
+          <button className="bg-[#7B2CBF] text-[#E0AAFF] font-space-grotesk px-4 py-2 rounded-lg hover:bg-[#9D4EDD] transition-colors duration-300">
             Connect Wallet
           </button>
         </div>
