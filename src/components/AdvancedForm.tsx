@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { ImagePlus, Plus, AlertCircle, Upload, X } from "lucide-react";
 import Image from "next/image";
 import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import AICompanionSimulator from "./AICompanionSimulator";
+import SimulatorPopup from "./SimulatorPopup";
 
 interface AdvancedFormProps {
   formData: any;
@@ -30,11 +33,12 @@ export default function AdvancedForm({
   SPECIALTIES,
   ADJECTIVES,
 }: AdvancedFormProps) {
-  const [showCustomInput, setShowCustomInput] = React.useState(false);
-  const [customSpecialty, setCustomSpecialty] = React.useState("");
-  const [newLink, setNewLink] = React.useState("");
-  const [showCustomAdjInput, setShowCustomAdjInput] = React.useState(false);
-  const [customAdjective, setCustomAdjective] = React.useState("");
+  const [showCustomInput, setShowCustomInput] = useState(false);
+  const [customSpecialty, setCustomSpecialty] = useState("");
+  const [newLink, setNewLink] = useState("");
+  const [showCustomAdjInput, setShowCustomAdjInput] = useState(false);
+  const [customAdjective, setCustomAdjective] = useState("");
+  const [isSimulatorOpen, setIsSimulatorOpen] = useState(false);
 
   const handleSpecialtyToggle = (specialty: string) => {
     setFormData((prev) => ({
@@ -735,6 +739,25 @@ export default function AdvancedForm({
           </div>
         </div>
       </div>
+
+      <div className="flex justify-center mt-8">
+        <Button
+          onClick={() => setIsSimulatorOpen(true)}
+          className="bg-[#3BF4FB] text-[#10002B] px-8 py-3 rounded-lg font-space-grotesk font-bold hover:bg-[#44318D] hover:text-[#E0AAFF] transition-colors"
+        >
+          Test AI Companion
+        </Button>
+      </div>
+      <SimulatorPopup
+        isOpen={isSimulatorOpen}
+        onClose={() => setIsSimulatorOpen(false)}
+        aiName={formData.name || "AI Companion"}
+        firstMessage={
+          formData.firstMessage || "Hello! How can I assist you today?"
+        }
+        personality={formData.personality || "friendly and helpful"}
+        avatarUrl={previewImage || undefined}
+      />
     </div>
   );
 }
