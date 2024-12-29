@@ -17,7 +17,17 @@ interface FormData {
   specialties: string[];
   knowledgeFiles: File[];
   knowledgeLinks: string[];
-  // Add any additional fields for advanced mode here
+  personality: string;
+  firstMessage: string;
+  lore: string;
+  style: string;
+  adjectives: string[];
+  framework: "eliza" | "goat" | "zerepy";
+  imageGeneration: boolean;
+  videoGeneration: boolean;
+  voiceChat: boolean;
+  enableTelegram: boolean;
+  launchType: string;
 }
 
 const COMPANION_TYPES = [
@@ -52,6 +62,24 @@ const SPECIALTIES = [
   "Astrophysics",
 ];
 
+const ADJECTIVES = [
+  "Intelligent",
+  "Creative",
+  "Analytical",
+  "Empathetic",
+  "Witty",
+  "Professional",
+  "Casual",
+  "Technical",
+  "Friendly",
+  "Mysterious",
+  "Philosophical",
+  "Practical",
+  "Adventurous",
+  "Scholarly",
+  "Artistic",
+];
+
 export default function CreateCompanionForm() {
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -64,7 +92,17 @@ export default function CreateCompanionForm() {
     specialties: [],
     knowledgeFiles: [],
     knowledgeLinks: [],
-    // Initialize any additional fields for advanced mode here
+    personality: "",
+    firstMessage: "",
+    lore: "",
+    style: "",
+    adjectives: [],
+    framework: "eliza",
+    imageGeneration: false,
+    videoGeneration: false,
+    voiceChat: false,
+    enableTelegram: false,
+    launchType: "normal",
   });
 
   const [isAdvancedMode, setIsAdvancedMode] = useState(false);
@@ -97,64 +135,6 @@ export default function CreateCompanionForm() {
     }
   };
 
-  const handleSpecialtyToggle = (specialty: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      specialties: prev.specialties.includes(specialty)
-        ? prev.specialties.filter((s) => s !== specialty)
-        : [...prev.specialties, specialty],
-    }));
-  };
-
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(e.target.files || []);
-    setFormData((prev) => ({
-      ...prev,
-      knowledgeFiles: [...prev.knowledgeFiles, ...files],
-    }));
-  };
-
-  const handleRemoveFile = (index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      knowledgeFiles: prev.knowledgeFiles.filter((_, i) => i !== index),
-    }));
-  };
-
-  const handleAddLink = () => {
-    if (newLink.trim()) {
-      setFormData((prev) => ({
-        ...prev,
-        knowledgeLinks: [...prev.knowledgeLinks, newLink.trim()],
-      }));
-      setNewLink("");
-    }
-  };
-
-  const handleRemoveLink = (index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      knowledgeLinks: prev.knowledgeLinks.filter((_, i) => i !== index),
-    }));
-  };
-
-  const handleAddCustomSpecialty = () => {
-    if (
-      customSpecialty.trim() &&
-      !formData.specialties.includes(customSpecialty.trim())
-    ) {
-      setFormData((prev) => ({
-        ...prev,
-        specialties: [...prev.specialties, customSpecialty.trim()],
-      }));
-      setCustomSpecialty("");
-    }
-  };
-
-  const [newLink, setNewLink] = useState("");
-  const [customSpecialty, setCustomSpecialty] = useState("");
-  const [showCustomInput, setShowCustomInput] = useState(false);
-
   return (
     <form onSubmit={handleSubmit} className="max-w-3xl mx-auto">
       <div className="bg-[#7B2CBF] rounded-lg p-8 mb-8 shadow-lg">
@@ -186,6 +166,7 @@ export default function CreateCompanionForm() {
             previewImage={previewImage}
             COMPANION_TYPES={COMPANION_TYPES}
             SPECIALTIES={SPECIALTIES}
+            ADJECTIVES={ADJECTIVES}
           />
         ) : (
           <BasicForm
@@ -196,6 +177,7 @@ export default function CreateCompanionForm() {
             previewImage={previewImage}
             COMPANION_TYPES={COMPANION_TYPES}
             SPECIALTIES={SPECIALTIES}
+            ADJECTIVES={ADJECTIVES}
           />
         )}
       </div>

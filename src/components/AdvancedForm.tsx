@@ -1,6 +1,9 @@
 import React from "react";
 import { ImagePlus, Plus, AlertCircle, Upload, X } from "lucide-react";
 import Image from "next/image";
+import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 interface AdvancedFormProps {
   formData: any;
@@ -14,6 +17,7 @@ interface AdvancedFormProps {
   previewImage: string | null;
   COMPANION_TYPES: string[];
   SPECIALTIES: string[];
+  ADJECTIVES: string[];
 }
 
 export default function AdvancedForm({
@@ -24,10 +28,13 @@ export default function AdvancedForm({
   previewImage,
   COMPANION_TYPES,
   SPECIALTIES,
+  ADJECTIVES,
 }: AdvancedFormProps) {
   const [showCustomInput, setShowCustomInput] = React.useState(false);
   const [customSpecialty, setCustomSpecialty] = React.useState("");
   const [newLink, setNewLink] = React.useState("");
+  const [showCustomAdjInput, setShowCustomAdjInput] = React.useState(false);
+  const [customAdjective, setCustomAdjective] = React.useState("");
 
   const handleSpecialtyToggle = (specialty: string) => {
     setFormData((prev) => ({
@@ -35,6 +42,15 @@ export default function AdvancedForm({
       specialties: prev.specialties.includes(specialty)
         ? prev.specialties.filter((s) => s !== specialty)
         : [...prev.specialties, specialty],
+    }));
+  };
+
+  const handleAdjectiveToggle = (adjective: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      adjectives: prev.adjectives.includes(adjective)
+        ? prev.adjectives.filter((a) => a !== adjective)
+        : [...prev.adjectives, adjective],
     }));
   };
 
@@ -48,6 +64,19 @@ export default function AdvancedForm({
         specialties: [...prev.specialties, customSpecialty.trim()],
       }));
       setCustomSpecialty("");
+    }
+  };
+
+  const handleAddCustomAdjective = () => {
+    if (
+      customAdjective.trim() &&
+      !formData.adjectives.includes(customAdjective.trim())
+    ) {
+      setFormData((prev) => ({
+        ...prev,
+        adjectives: [...prev.adjectives, customAdjective.trim()],
+      }));
+      setCustomAdjective("");
     }
   };
 
@@ -84,7 +113,97 @@ export default function AdvancedForm({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      {/* Launch Configuration */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold font-space-grotesk text-[#3BF4FB]">
+          Launch Configuration
+        </h2>
+        <RadioGroup
+          defaultValue="normal"
+          value={formData.launchType}
+          onValueChange={(value) =>
+            setFormData((prev) => ({ ...prev, launchType: value }))
+          }
+          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+        >
+          <div>
+            <RadioGroupItem
+              value="normal"
+              id="normal"
+              className="peer sr-only"
+            />
+            <Label
+              htmlFor="normal"
+              className="flex flex-col items-start justify-between rounded-lg border-2 border-muted bg-[#44318D] p-4 hover:bg-[#44318D]/80 peer-data-[state=checked]:border-[#3BF4FB] [&:has([data-state=checked])]:border-[#3BF4FB]"
+            >
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-[#E0AAFF]">
+                  Normal Launch
+                </p>
+                <p className="text-sm text-[#E0AAFF]/80">
+                  Launch a new token for your agent
+                </p>
+              </div>
+            </Label>
+          </div>
+
+          <div>
+            <RadioGroupItem value="fair" id="fair" className="peer sr-only" />
+            <Label
+              htmlFor="fair"
+              className="flex flex-col items-start justify-between rounded-lg border-2 border-muted bg-[#44318D] p-4 hover:bg-[#44318D]/80 peer-data-[state=checked]:border-[#3BF4FB] [&:has([data-state=checked])]:border-[#3BF4FB]"
+            >
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-[#E0AAFF]">
+                  Fair Launch
+                </p>
+                <p className="text-sm text-[#E0AAFF]/80">
+                  Your token will be launched randomly within a 24-hour time
+                  frame
+                </p>
+              </div>
+            </Label>
+          </div>
+
+          <div>
+            <RadioGroupItem
+              value="no-token"
+              id="no-token"
+              className="peer sr-only"
+            />
+            <Label
+              htmlFor="no-token"
+              className="flex flex-col items-start justify-between rounded-lg border-2 border-muted bg-[#44318D] p-4 hover:bg-[#44318D]/80 peer-data-[state=checked]:border-[#3BF4FB] [&:has([data-state=checked])]:border-[#3BF4FB]"
+            >
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-[#E0AAFF]">No Token</p>
+                <p className="text-sm text-[#E0AAFF]/80">
+                  Launch your agent without a token. You can attach or launch
+                  one later.
+                </p>
+              </div>
+            </Label>
+          </div>
+
+          <div>
+            <RadioGroupItem value="nft" id="nft" className="peer sr-only" />
+            <Label
+              htmlFor="nft"
+              className="flex flex-col items-start justify-between rounded-lg border-2 border-muted bg-[#44318D] p-4 hover:bg-[#44318D]/80 peer-data-[state=checked]:border-[#3BF4FB] [&:has([data-state=checked])]:border-[#3BF4FB]"
+            >
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-[#E0AAFF]">Use NFT</p>
+                <p className="text-sm text-[#E0AAFF]/80">
+                  Launch an agent for your NFT. Bring your NFT to life.
+                </p>
+              </div>
+            </Label>
+          </div>
+        </RadioGroup>
+      </div>
+
+      {/* Basic Details Section */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Image Upload Section */}
         <div className="flex flex-col items-center justify-center">
@@ -114,7 +233,7 @@ export default function AdvancedForm({
           </label>
         </div>
 
-        {/* Basic Details Section */}
+        {/* Basic Info */}
         <div className="space-y-4">
           <div>
             <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
@@ -167,18 +286,215 @@ export default function AdvancedForm({
         </div>
       </div>
 
-      {/* Description Section */}
-      <div>
-        <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
-          Description *
-        </label>
-        <textarea
-          name="description"
-          value={formData.description}
-          onChange={handleInputChange}
-          className="w-full bg-[#44318D] text-[#E0AAFF] rounded-lg px-4 py-2 font-outfit h-32 focus:outline-none focus:ring-2 focus:ring-[#3BF4FB]"
-          required
-        />
+      {/* Framework Selection */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold font-space-grotesk text-[#3BF4FB]">
+          Framework Selection
+        </h2>
+        <RadioGroup
+          defaultValue="eliza"
+          value={formData.framework}
+          onValueChange={(value) =>
+            setFormData((prev) => ({ ...prev, framework: value }))
+          }
+          className="grid grid-cols-1 md:grid-cols-3 gap-4"
+        >
+          <div>
+            <RadioGroupItem value="eliza" id="eliza" className="peer sr-only" />
+            <Label
+              htmlFor="eliza"
+              className="flex flex-col items-start justify-between rounded-lg border-2 border-muted bg-[#44318D] p-4 hover:bg-[#44318D]/80 peer-data-[state=checked]:border-[#3BF4FB] [&:has([data-state=checked])]:border-[#3BF4FB]"
+            >
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-[#E0AAFF]">
+                  Eliza Framework
+                </p>
+                <p className="text-sm text-[#E0AAFF]/80">
+                  Classic rule-based dialogue system
+                </p>
+              </div>
+            </Label>
+          </div>
+
+          <div>
+            <RadioGroupItem value="goat" id="goat" className="peer sr-only" />
+            <Label
+              htmlFor="goat"
+              className="flex flex-col items-start justify-between rounded-lg border-2 border-muted bg-[#44318D] p-4 hover:bg-[#44318D]/80 peer-data-[state=checked]:border-[#3BF4FB] [&:has([data-state=checked])]:border-[#3BF4FB]"
+            >
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-[#E0AAFF]">
+                  GOAT Framework
+                </p>
+                <p className="text-sm text-[#E0AAFF]/80">
+                  Advanced generative AI system
+                </p>
+              </div>
+            </Label>
+          </div>
+
+          <div>
+            <RadioGroupItem
+              value="zerepy"
+              id="zerepy"
+              className="peer sr-only"
+            />
+            <Label
+              htmlFor="zerepy"
+              className="flex flex-col items-start justify-between rounded-lg border-2 border-muted bg-[#44318D] p-4 hover:bg-[#44318D]/80 peer-data-[state=checked]:border-[#3BF4FB] [&:has([data-state=checked])]:border-[#3BF4FB]"
+            >
+              <div className="space-y-1">
+                <p className="text-sm font-medium text-[#E0AAFF]">
+                  Zerepy Framework
+                </p>
+                <p className="text-sm text-[#E0AAFF]/80">
+                  Zero-shot learning framework
+                </p>
+              </div>
+            </Label>
+          </div>
+        </RadioGroup>
+      </div>
+
+      {/* Personality Configuration */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold font-space-grotesk text-[#3BF4FB]">
+          Personality Configuration
+        </h2>
+
+        <div>
+          <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
+            Description *
+          </label>
+          <textarea
+            name="description"
+            value={formData.description}
+            onChange={handleInputChange}
+            placeholder="Write a brief overview of your AI Agent..."
+            className="w-full bg-[#44318D] text-[#E0AAFF] rounded-lg px-4 py-2 font-outfit h-32 focus:outline-none focus:ring-2 focus:ring-[#3BF4FB]"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
+            Personality
+          </label>
+          <textarea
+            name="personality"
+            value={formData.personality}
+            onChange={handleInputChange}
+            placeholder="Describe your AI Agent traits, behavior, and demeanor..."
+            className="w-full bg-[#44318D] text-[#E0AAFF] rounded-lg px-4 py-2 font-outfit h-24 focus:outline-none focus:ring-2 focus:ring-[#3BF4FB]"
+          />
+        </div>
+
+        <div>
+          <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
+            First Message
+          </label>
+          <textarea
+            name="firstMessage"
+            value={formData.firstMessage}
+            onChange={handleInputChange}
+            placeholder="Write the first message your AI Agent will send..."
+            className="w-full bg-[#44318D] text-[#E0AAFF] rounded-lg px-4 py-2 font-outfit h-24 focus:outline-none focus:ring-2 focus:ring-[#3BF4FB]"
+          />
+        </div>
+
+        <div>
+          <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
+            Lore
+          </label>
+          <textarea
+            name="lore"
+            value={formData.lore}
+            onChange={handleInputChange}
+            placeholder="Write the background story or lore for your AI Agent..."
+            className="w-full bg-[#44318D] text-[#E0AAFF] rounded-lg px-4 py-2 font-outfit h-24 focus:outline-none focus:ring-2 focus:ring-[#3BF4FB]"
+          />
+        </div>
+
+        <div>
+          <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
+            Style
+          </label>
+          <textarea
+            name="style"
+            value={formData.style}
+            onChange={handleInputChange}
+            placeholder="Describe your agent's response style..."
+            className="w-full bg-[#44318D] text-[#E0AAFF] rounded-lg px-4 py-2 font-outfit h-24 focus:outline-none focus:ring-2 focus:ring-[#3BF4FB]"
+          />
+        </div>
+
+        {/* Adjectives Section */}
+        <div>
+          <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
+            Adjectives
+          </label>
+          <div className="flex flex-wrap gap-2">
+            {ADJECTIVES.map((adjective) => (
+              <button
+                key={adjective}
+                type="button"
+                onClick={() => handleAdjectiveToggle(adjective)}
+                className={`px-3 py-1 rounded-full font-outfit text-sm transition-colors ${
+                  formData.adjectives.includes(adjective)
+                    ? "bg-[#3BF4FB] text-[#10002B]"
+                    : "bg-[#44318D] text-[#E0AAFF] hover:bg-[#3BF4FB] hover:text-[#10002B]"
+                }`}
+              >
+                {adjective}
+              </button>
+            ))}
+            {formData.adjectives
+              .filter((a) => !ADJECTIVES.includes(a))
+              .map((customAdjective) => (
+                <button
+                  key={customAdjective}
+                  type="button"
+                  onClick={() => handleAdjectiveToggle(customAdjective)}
+                  className="bg-[#3BF4FB] text-[#10002B] px-3 py-1 rounded-full font-outfit text-sm transition-colors"
+                >
+                  {customAdjective}
+                </button>
+              ))}
+            <div className="relative">
+              <button
+                type="button"
+                onMouseEnter={() => setShowCustomAdjInput(true)}
+                onMouseLeave={() => setShowCustomAdjInput(false)}
+                className="px-3 py-1 rounded-full font-outfit text-sm bg-[#44318D] text-[#E0AAFF] hover:bg-[#3BF4FB] hover:text-[#10002B] transition-colors flex items-center"
+              >
+                <Plus size={14} className="mr-1" />
+                Add Custom
+              </button>
+              {showCustomAdjInput && (
+                <div
+                  className="absolute top-0 left-0 flex"
+                  onMouseEnter={() => setShowCustomAdjInput(true)}
+                  onMouseLeave={() => setShowCustomAdjInput(false)}
+                >
+                  <input
+                    type="text"
+                    value={customAdjective}
+                    onChange={(e) => setCustomAdjective(e.target.value)}
+                    placeholder="Custom adjective"
+                    className="bg-[#44318D] text-[#E0AAFF] rounded-l-full px-3 py-1 font-outfit text-sm focus:outline-none focus:ring-2 focus:ring-[#3BF4FB] w-32"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleAddCustomAdjective}
+                    className="bg-[#3BF4FB] text-[#10002B] rounded-r-full px-3 py-1 font-outfit text-sm hover:bg-[#44318D] hover:text-[#E0AAFF] transition-colors"
+                  >
+                    Add
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Specialties Section */}
@@ -245,6 +561,60 @@ export default function AdvancedForm({
                 </button>
               </div>
             )}
+          </div>
+        </div>
+      </div>
+
+      {/* Media Abilities Section */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold font-space-grotesk text-[#3BF4FB]">
+          Media Abilities
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="image-generation"
+              checked={formData.imageGeneration}
+              onCheckedChange={(checked) =>
+                setFormData((prev) => ({ ...prev, imageGeneration: checked }))
+              }
+            />
+            <label
+              htmlFor="image-generation"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#E0AAFF]"
+            >
+              Image Generation
+            </label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="video-generation"
+              checked={formData.videoGeneration}
+              onCheckedChange={(checked) =>
+                setFormData((prev) => ({ ...prev, videoGeneration: checked }))
+              }
+            />
+            <label
+              htmlFor="video-generation"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#E0AAFF]"
+            >
+              Video Generation
+            </label>
+          </div>
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="voice-chat"
+              checked={formData.voiceChat}
+              onCheckedChange={(checked) =>
+                setFormData((prev) => ({ ...prev, voiceChat: checked }))
+              }
+            />
+            <label
+              htmlFor="voice-chat"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#E0AAFF]"
+            >
+              Voice Chat
+            </label>
           </div>
         </div>
       </div>
@@ -345,51 +715,71 @@ export default function AdvancedForm({
         </div>
       </div>
 
-      {/* Telegram Configuration Section */}
+      {/* Telegram Integration Section */}
       <div className="space-y-4">
         <h2 className="text-xl font-bold font-space-grotesk text-[#3BF4FB]">
-          Telegram Configuration
+          Telegram Integration
         </h2>
-        <div>
-          <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
-            Bot Name *
-          </label>
-          <input
-            type="text"
-            name="telegramBotName"
-            value={formData.telegramBotName}
-            onChange={handleInputChange}
-            className="w-full bg-[#44318D] text-[#E0AAFF] rounded-lg px-4 py-2 font-outfit focus:outline-none focus:ring-2 focus:ring-[#3BF4FB]"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
-            Bot Token *
-          </label>
-          <input
-            type="password"
-            name="telegramToken"
-            value={formData.telegramToken}
-            onChange={handleInputChange}
-            className="w-full bg-[#44318D] text-[#E0AAFF] rounded-lg px-4 py-2 font-outfit focus:outline-none focus:ring-2 focus:ring-[#3BF4FB]"
-            required
-          />
-        </div>
-        <div className="flex items-start space-x-2 text-[#E0AAFF]">
-          <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
-          <p className="text-sm font-outfit">
-            You can get your bot token from the{" "}
-            <a
-              href="https://t.me/BotFather"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#3BF4FB] hover:underline"
-            >
-              BotFather
-            </a>
-            . Make sure to keep it secure and never share it publicly.
-          </p>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-space-grotesk text-[#E0AAFF]">
+              Telegram Configuration
+            </h3>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="enable-telegram"
+                checked={formData.enableTelegram}
+                onCheckedChange={(checked) =>
+                  setFormData((prev) => ({ ...prev, enableTelegram: checked }))
+                }
+              />
+              <label
+                htmlFor="enable-telegram"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#E0AAFF]"
+              >
+                Enable Telegram
+              </label>
+            </div>
+          </div>
+          <div>
+            <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
+              Bot Name
+            </label>
+            <input
+              type="text"
+              name="telegramBotName"
+              value={formData.telegramBotName}
+              onChange={handleInputChange}
+              className="w-full bg-[#44318D] text-[#E0AAFF] rounded-lg px-4 py-2 font-outfit focus:outline-none focus:ring-2 focus:ring-[#3BF4FB]"
+            />
+          </div>
+          <div>
+            <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
+              Bot Token
+            </label>
+            <input
+              type="password"
+              name="telegramToken"
+              value={formData.telegramToken}
+              onChange={handleInputChange}
+              className="w-full bg-[#44318D] text-[#E0AAFF] rounded-lg px-4 py-2 font-outfit focus:outline-none focus:ring-2 focus:ring-[#3BF4FB]"
+            />
+          </div>
+          <div className="flex items-start space-x-2 text-[#E0AAFF]">
+            <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
+            <p className="text-sm font-outfit">
+              You can get your bot token from the{" "}
+              <a
+                href="https://t.me/BotFather"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#3BF4FB] hover:underline"
+              >
+                BotFather
+              </a>
+              . Make sure to keep it secure and never share it publicly.
+            </p>
+          </div>
         </div>
       </div>
     </div>

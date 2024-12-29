@@ -1,6 +1,8 @@
 import React from "react";
-import { ImagePlus, Plus } from "lucide-react";
+import { ImagePlus, Plus, AlertCircle, Upload, X } from "lucide-react";
 import Image from "next/image";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
 interface BasicFormProps {
   formData: any;
@@ -14,6 +16,7 @@ interface BasicFormProps {
   previewImage: string | null;
   COMPANION_TYPES: string[];
   SPECIALTIES: string[];
+  ADJECTIVES: string[];
 }
 
 export default function BasicForm({
@@ -24,9 +27,11 @@ export default function BasicForm({
   previewImage,
   COMPANION_TYPES,
   SPECIALTIES,
+  ADJECTIVES,
 }: BasicFormProps) {
   const [showCustomInput, setShowCustomInput] = React.useState(false);
   const [customSpecialty, setCustomSpecialty] = React.useState("");
+  const [newLink, setNewLink] = React.useState("");
 
   const handleSpecialtyToggle = (specialty: string) => {
     setFormData((prev) => ({
@@ -48,6 +53,38 @@ export default function BasicForm({
       }));
       setCustomSpecialty("");
     }
+  };
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    setFormData((prev) => ({
+      ...prev,
+      knowledgeFiles: [...prev.knowledgeFiles, ...files],
+    }));
+  };
+
+  const handleRemoveFile = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      knowledgeFiles: prev.knowledgeFiles.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleAddLink = () => {
+    if (newLink.trim()) {
+      setFormData((prev) => ({
+        ...prev,
+        knowledgeLinks: [...prev.knowledgeLinks, newLink.trim()],
+      }));
+      setNewLink("");
+    }
+  };
+
+  const handleRemoveLink = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      knowledgeLinks: prev.knowledgeLinks.filter((_, i) => i !== index),
+    }));
   };
 
   return (
@@ -212,6 +249,170 @@ export default function BasicForm({
                 </button>
               </div>
             )}
+          </div>
+        </div>
+      </div>
+
+      {/* Knowledge Base Section */}
+      <div className="space-y-6">
+        <h2 className="text-xl font-bold font-space-grotesk text-[#3BF4FB]">
+          Knowledge Base
+        </h2>
+        {/* File Upload */}
+        <div>
+          <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
+            Upload Files
+          </label>
+          <div className="flex items-center space-x-2">
+            <label className="cursor-pointer bg-[#3BF4FB] text-[#10002B] px-4 py-2 rounded-lg font-space-grotesk hover:bg-[#44318D] hover:text-[#E0AAFF] transition-colors">
+              <Upload className="inline-block mr-2" size={18} />
+              Choose Files
+              <input
+                type="file"
+                multiple
+                onChange={handleFileUpload}
+                className="hidden"
+              />
+            </label>
+            <span className="text-[#E0AAFF] font-outfit">
+              {formData.knowledgeFiles.length} file(s) selected
+            </span>
+          </div>
+          {formData.knowledgeFiles.length > 0 && (
+            <ul className="mt-2 space-y-1">
+              {formData.knowledgeFiles.map((file: File, index: number) => (
+                <li
+                  key={index}
+                  className="flex items-center justify-between bg-[#44318D] text-[#E0AAFF] rounded px-3 py-2"
+                >
+                  <span className="font-outfit truncate">{file.name}</span>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveFile(index)}
+                    className="text-[#E0AAFF] hover:text-[#3BF4FB]"
+                  >
+                    <X size={18} />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* Link Input */}
+        <div>
+          <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
+            Add Links
+          </label>
+          <div className="flex space-x-2">
+            <input
+              type="url"
+              value={newLink}
+              onChange={(e) => setNewLink(e.target.value)}
+              placeholder="https://example.com"
+              className="flex-grow bg-[#44318D] text-[#E0AAFF] rounded-lg px-4 py-2 font-outfit focus:outline-none focus:ring-2 focus:ring-[#3BF4FB]"
+            />
+            <button
+              type="button"
+              onClick={handleAddLink}
+              className="bg-[#3BF4FB] text-[#10002B] px-4 py-2 rounded-lg font-space-grotesk hover:bg-[#44318D] hover:text-[#E0AAFF] transition-colors"
+            >
+              Add
+            </button>
+          </div>
+          {formData.knowledgeLinks.length > 0 && (
+            <ul className="mt-2 space-y-1">
+              {formData.knowledgeLinks.map((link: string, index: number) => (
+                <li
+                  key={index}
+                  className="flex items-center justify-between bg-[#44318D] text-[#E0AAFF] rounded px-3 py-2"
+                >
+                  <a
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-outfit truncate hover:text-[#3BF4FB]"
+                  >
+                    {link}
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveLink(index)}
+                    className="text-[#E0AAFF] hover:text-[#3BF4FB]"
+                  >
+                    <X size={18} />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+
+      {/* Telegram Integration Section */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold font-space-grotesk text-[#3BF4FB]">
+          Telegram Integration
+        </h2>
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-space-grotesk text-[#E0AAFF]">
+              Telegram Configuration
+            </h3>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="enable-telegram"
+                checked={formData.enableTelegram}
+                onCheckedChange={(checked) =>
+                  setFormData((prev) => ({ ...prev, enableTelegram: checked }))
+                }
+              />
+              <label
+                htmlFor="enable-telegram"
+                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#E0AAFF]"
+              >
+                Enable Telegram
+              </label>
+            </div>
+          </div>
+          <div>
+            <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
+              Bot Name
+            </label>
+            <input
+              type="text"
+              name="telegramBotName"
+              value={formData.telegramBotName}
+              onChange={handleInputChange}
+              className="w-full bg-[#44318D] text-[#E0AAFF] rounded-lg px-4 py-2 font-outfit focus:outline-none focus:ring-2 focus:ring-[#3BF4FB]"
+            />
+          </div>
+          <div>
+            <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
+              Bot Token
+            </label>
+            <input
+              type="password"
+              name="telegramToken"
+              value={formData.telegramToken}
+              onChange={handleInputChange}
+              className="w-full bg-[#44318D] text-[#E0AAFF] rounded-lg px-4 py-2 font-outfit focus:outline-none focus:ring-2 focus:ring-[#3BF4FB]"
+            />
+          </div>
+          <div className="flex items-start space-x-2 text-[#E0AAFF]">
+            <AlertCircle className="w-5 h-5 mt-0.5 flex-shrink-0" />
+            <p className="text-sm font-outfit">
+              You can get your bot token from the{" "}
+              <a
+                href="https://t.me/BotFather"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-[#3BF4FB] hover:underline"
+              >
+                BotFather
+              </a>
+              . Make sure to keep it secure and never share it publicly.
+            </p>
           </div>
         </div>
       </div>
