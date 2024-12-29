@@ -127,79 +127,52 @@ export default function AdvancedForm({
           }
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
         >
-          <div>
-            <RadioGroupItem
-              value="normal"
-              id="normal"
-              className="peer sr-only"
-            />
-            <Label
-              htmlFor="normal"
-              className="flex flex-col items-start justify-between rounded-lg border-2 border-muted bg-[#44318D] p-4 hover:bg-[#44318D]/80 peer-data-[state=checked]:border-[#3BF4FB] [&:has([data-state=checked])]:border-[#3BF4FB]"
-            >
-              <div className="space-y-1">
-                <p className="text-sm font-medium text-[#E0AAFF]">
-                  Normal Launch
-                </p>
-                <p className="text-sm text-[#E0AAFF]/80">
-                  Launch a new token for your agent
-                </p>
-              </div>
-            </Label>
-          </div>
-
-          <div>
-            <RadioGroupItem value="fair" id="fair" className="peer sr-only" />
-            <Label
-              htmlFor="fair"
-              className="flex flex-col items-start justify-between rounded-lg border-2 border-muted bg-[#44318D] p-4 hover:bg-[#44318D]/80 peer-data-[state=checked]:border-[#3BF4FB] [&:has([data-state=checked])]:border-[#3BF4FB]"
-            >
-              <div className="space-y-1">
-                <p className="text-sm font-medium text-[#E0AAFF]">
-                  Fair Launch
-                </p>
-                <p className="text-sm text-[#E0AAFF]/80">
-                  Your token will be launched randomly within a 24-hour time
-                  frame
-                </p>
-              </div>
-            </Label>
-          </div>
-
-          <div>
-            <RadioGroupItem
-              value="no-token"
-              id="no-token"
-              className="peer sr-only"
-            />
-            <Label
-              htmlFor="no-token"
-              className="flex flex-col items-start justify-between rounded-lg border-2 border-muted bg-[#44318D] p-4 hover:bg-[#44318D]/80 peer-data-[state=checked]:border-[#3BF4FB] [&:has([data-state=checked])]:border-[#3BF4FB]"
-            >
-              <div className="space-y-1">
-                <p className="text-sm font-medium text-[#E0AAFF]">No Token</p>
-                <p className="text-sm text-[#E0AAFF]/80">
-                  Launch your agent without a token. You can attach or launch
-                  one later.
-                </p>
-              </div>
-            </Label>
-          </div>
-
-          <div>
-            <RadioGroupItem value="nft" id="nft" className="peer sr-only" />
-            <Label
-              htmlFor="nft"
-              className="flex flex-col items-start justify-between rounded-lg border-2 border-muted bg-[#44318D] p-4 hover:bg-[#44318D]/80 peer-data-[state=checked]:border-[#3BF4FB] [&:has([data-state=checked])]:border-[#3BF4FB]"
-            >
-              <div className="space-y-1">
-                <p className="text-sm font-medium text-[#E0AAFF]">Use NFT</p>
-                <p className="text-sm text-[#E0AAFF]/80">
-                  Launch an agent for your NFT. Bring your NFT to life.
-                </p>
-              </div>
-            </Label>
-          </div>
+          {[
+            {
+              value: "normal",
+              title: "Normal Launch",
+              description: "Launch a new token for your agent",
+            },
+            {
+              value: "fair",
+              title: "Fair Launch",
+              description:
+                "Your token will be launched randomly within a 24-hour time frame",
+            },
+            {
+              value: "no-token",
+              title: "No Token",
+              description:
+                "Launch your agent without a token. You can attach or launch one later.",
+            },
+            {
+              value: "nft",
+              title: "Use NFT",
+              description:
+                "Launch an agent for your NFT. Bring your NFT to life.",
+            },
+          ].map((option) => (
+            <div key={option.value}>
+              <RadioGroupItem
+                value={option.value}
+                id={option.value}
+                className="peer sr-only"
+              />
+              <Label
+                htmlFor={option.value}
+                className="flex flex-col items-start justify-between rounded-lg border-2 border-muted bg-[#44318D] p-4 hover:bg-[#44318D]/80 peer-data-[state=checked]:border-[#3BF4FB] peer-data-[state=checked]:bg-[#3BF4FB]/20 [&:has([data-state=checked])]:border-[#3BF4FB] [&:has([data-state=checked])]:bg-[#3BF4FB]/20 transition-all duration-300"
+              >
+                <div className="space-y-1">
+                  <p className="text-sm font-medium text-[#E0AAFF] peer-data-[state=checked]:text-[#3BF4FB]">
+                    {option.title}
+                  </p>
+                  <p className="text-sm text-[#E0AAFF]/80">
+                    {option.description}
+                  </p>
+                </div>
+              </Label>
+            </div>
+          ))}
         </RadioGroup>
       </div>
 
@@ -721,26 +694,6 @@ export default function AdvancedForm({
           Telegram Integration
         </h2>
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-space-grotesk text-[#E0AAFF]">
-              Telegram Configuration
-            </h3>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="enable-telegram"
-                checked={formData.enableTelegram}
-                onCheckedChange={(checked) =>
-                  setFormData((prev) => ({ ...prev, enableTelegram: checked }))
-                }
-              />
-              <label
-                htmlFor="enable-telegram"
-                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[#E0AAFF]"
-              >
-                Enable Telegram
-              </label>
-            </div>
-          </div>
           <div>
             <label className="block text-[#E0AAFF] font-space-grotesk mb-2">
               Bot Name
