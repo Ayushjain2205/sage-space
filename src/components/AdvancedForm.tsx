@@ -5,7 +5,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import AICompanionSimulator from "./AICompanionSimulator";
 import SimulatorPopup from "./SimulatorPopup";
 
 interface AdvancedFormProps {
@@ -22,6 +21,19 @@ interface AdvancedFormProps {
   SPECIALTIES: string[];
   ADJECTIVES: string[];
 }
+
+const ACTION_CAPABILITIES = [
+  { id: "launchMemecoin", label: "Launch Memecoin" },
+  { id: "launchNFT", label: "Launch NFT" },
+  { id: "trade", label: "Trade" },
+  { id: "airdrop", label: "Airdrop" },
+  { id: "deployNFT", label: "Deploy NFT" },
+  { id: "staking", label: "Staking" },
+  { id: "defi", label: "DeFi Interactions" },
+  { id: "governance", label: "Governance Voting" },
+  { id: "bridging", label: "Cross-chain Bridging" },
+  { id: "smartContracts", label: "Deploy Smart Contracts" },
+];
 
 export default function AdvancedForm({
   formData,
@@ -113,6 +125,15 @@ export default function AdvancedForm({
     setFormData((prev) => ({
       ...prev,
       knowledgeLinks: prev.knowledgeLinks.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleActionCapabilityToggle = (capability: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      actionCapabilities: prev.actionCapabilities?.includes(capability)
+        ? prev.actionCapabilities.filter((c: string) => c !== capability)
+        : [...(prev.actionCapabilities || []), capability],
     }));
   };
 
@@ -593,6 +614,29 @@ export default function AdvancedForm({
               Voice Chat
             </label>
           </div>
+        </div>
+      </div>
+
+      {/* Action Capabilities Section */}
+      <div className="space-y-4">
+        <h2 className="text-xl font-bold font-space-grotesk text-[#3BF4FB]">
+          Action Capabilities
+        </h2>
+        <div className="flex flex-wrap gap-2">
+          {ACTION_CAPABILITIES.map((capability) => (
+            <button
+              key={capability.id}
+              type="button"
+              onClick={() => handleActionCapabilityToggle(capability.id)}
+              className={`px-3 py-1 rounded-full font-outfit text-sm transition-colors ${
+                formData.actionCapabilities?.includes(capability.id)
+                  ? "bg-[#3BF4FB] text-[#10002B]"
+                  : "bg-[#44318D] text-[#E0AAFF] hover:bg-[#3BF4FB] hover:text-[#10002B]"
+              }`}
+            >
+              {capability.label}
+            </button>
+          ))}
         </div>
       </div>
 
