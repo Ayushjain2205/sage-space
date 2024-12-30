@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
 import ReactFlow, {
   Node,
   Edge,
@@ -9,6 +9,7 @@ import ReactFlow, {
   useReactFlow,
   Panel,
   Background,
+  MarkerType,
 } from "reactflow";
 import "reactflow/dist/style.css";
 
@@ -22,9 +23,21 @@ const WorkflowCanvas = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const { project } = useReactFlow();
+  const reactFlowWrapper = useRef<HTMLDivElement>(null);
 
   const onConnect = useCallback(
-    (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
+    (params: Edge | Connection) =>
+      setEdges((eds) =>
+        addEdge(
+          {
+            ...params,
+            type: "smoothstep",
+            animated: true,
+            style: { strokeDasharray: "5 5" },
+          },
+          eds
+        )
+      ),
     [setEdges]
   );
 
@@ -43,10 +56,13 @@ const WorkflowCanvas = () => {
         return;
       }
 
-      const position = project({
-        x: event.clientX,
-        y: event.clientY,
-      });
+      const reactFlowBounds = reactFlowWrapper.current?.getBoundingClientRect();
+      const position = reactFlowBounds
+        ? project({
+            x: event.clientX - reactFlowBounds.left,
+            y: event.clientY - reactFlowBounds.top,
+          })
+        : { x: 0, y: 0 };
 
       const newNode: Node = {
         id: `${type}-${Date.now()}`,
@@ -63,12 +79,26 @@ const WorkflowCanvas = () => {
 
         if (nds.length > 0) {
           const lastNode = nds[nds.length - 1];
+          const lastNodeX = lastNode.position.x;
+          const lastNodeY = lastNode.position.y;
+
+          // Position the new node to the right of the last node with more space
+          newNode.position = {
+            x: lastNodeX + 350, // Increased from 250 to 350
+            y: lastNodeY + 50, // Added 50 to y to create a slight diagonal layout
+          };
+
           setEdges((eds) =>
             eds.concat({
               id: `e${lastNode.id}-${newNode.id}`,
               source: lastNode.id,
               target: newNode.id,
               type: "smoothstep",
+              animated: true,
+              style: { strokeDasharray: "5 5" },
+              markerEnd: {
+                type: MarkerType.ArrowClosed,
+              },
             })
           );
         }
@@ -80,7 +110,7 @@ const WorkflowCanvas = () => {
   );
 
   return (
-    <div className="h-full pt-16 relative">
+    <div className="h-full w-full" ref={reactFlowWrapper}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
@@ -90,12 +120,20 @@ const WorkflowCanvas = () => {
         onDrop={onDrop}
         onDragOver={onDragOver}
         nodeTypes={nodeTypes}
-        fitView
+        fitView={false}
         snapToGrid={true}
         snapGrid={[20, 20]}
+        defaultEdgeOptions={{
+          type: "smoothstep",
+          animated: true,
+          style: { strokeDasharray: "5 5" },
+          markerEnd: {
+            type: MarkerType.ArrowClosed,
+          },
+        }}
       >
         <Background color="#E0AAFF" gap={16} size={1} />
-        <Panel position="top-right" className="absolute top-4 right-4">
+        <Panel position="top-right" className="top-4 right-4">
           <button
             onClick={() => {
               const flowExport = JSON.stringify({ nodes, edges });

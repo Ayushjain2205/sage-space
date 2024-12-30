@@ -42,7 +42,7 @@ const WorkflowNode = ({ data }: NodeProps) => {
           <select
             value={nodeData.model || ""}
             onChange={(e) => handleInputChange("model", e.target.value)}
-            className="w-full px-3 py-2 mt-2 text-sm bg-[#3B0764] border border-[#7B2CBF] rounded-md focus:outline-none focus:border-[#E0AAFF] text-white font-sans"
+            className="w-full px-3 py-2 mt-2 text-sm bg-[#3B0764] border border-[#7B2CBF] rounded-md focus:outline-none focus:border-[#E0AAFF] text-white font-outfit"
           >
             <option value="">Select LLM</option>
             <option value="openai">OpenAI</option>
@@ -58,14 +58,14 @@ const WorkflowNode = ({ data }: NodeProps) => {
               value={nodeData.endpoint || ""}
               onChange={(e) => handleInputChange("endpoint", e.target.value)}
               placeholder="API Endpoint"
-              className="w-full px-3 py-2 mt-2 text-sm bg-[#3B0764] border border-[#7B2CBF] rounded-md focus:outline-none focus:border-[#E0AAFF] text-white font-sans"
+              className="w-full px-3 py-2 mt-2 text-sm bg-[#3B0764] border border-[#7B2CBF] rounded-md focus:outline-none focus:border-[#E0AAFF] text-white font-outfit"
             />
             <input
               type="text"
               value={nodeData.params || ""}
               onChange={(e) => handleInputChange("params", e.target.value)}
               placeholder="Parameters (JSON)"
-              className="w-full px-3 py-2 mt-2 text-sm bg-[#3B0764] border border-[#7B2CBF] rounded-md focus:outline-none focus:border-[#E0AAFF] text-white font-sans"
+              className="w-full px-3 py-2 mt-2 text-sm bg-[#3B0764] border border-[#7B2CBF] rounded-md focus:outline-none focus:border-[#E0AAFF] text-white font-outfit"
             />
           </>
         );
@@ -74,7 +74,7 @@ const WorkflowNode = ({ data }: NodeProps) => {
           <select
             value={nodeData.type || ""}
             onChange={(e) => handleInputChange("type", e.target.value)}
-            className="w-full px-3 py-2 mt-2 text-sm bg-[#3B0764] border border-[#7B2CBF] rounded-md focus:outline-none focus:border-[#E0AAFF] text-white font-sans"
+            className="w-full px-3 py-2 mt-2 text-sm bg-[#3B0764] border border-[#7B2CBF] rounded-md focus:outline-none focus:border-[#E0AAFF] text-white font-outfit"
           >
             <option value="">Select Memory Type</option>
             <option value="short-term">Short-term</option>
@@ -88,7 +88,7 @@ const WorkflowNode = ({ data }: NodeProps) => {
             value={nodeData.content || ""}
             onChange={(e) => handleInputChange("content", e.target.value)}
             placeholder="Enter prompt template"
-            className="w-full px-3 py-2 mt-2 text-sm bg-[#3B0764] border border-[#7B2CBF] rounded-md focus:outline-none focus:border-[#E0AAFF] text-white font-sans resize-none h-20"
+            className="w-full px-3 py-2 mt-2 text-sm bg-[#3B0764] border border-[#7B2CBF] rounded-md focus:outline-none focus:border-[#E0AAFF] text-white font-outfit resize-none h-20"
           />
         );
       default:
@@ -98,7 +98,7 @@ const WorkflowNode = ({ data }: NodeProps) => {
             value={nodeData.default || ""}
             onChange={(e) => handleInputChange("default", e.target.value)}
             placeholder={`Enter ${data.label.toLowerCase()} details`}
-            className="w-full px-3 py-2 mt-2 text-sm bg-[#3B0764] border border-[#7B2CBF] rounded-md focus:outline-none focus:border-[#E0AAFF] text-white font-sans"
+            className="w-full px-3 py-2 mt-2 text-sm bg-[#3B0764] border border-[#7B2CBF] rounded-md focus:outline-none focus:border-[#E0AAFF] text-white font-outfit"
           />
         );
     }
@@ -113,7 +113,7 @@ const WorkflowNode = ({ data }: NodeProps) => {
       />
       <div className="flex items-center mb-2">
         <Icon className={`mr-2 text-[#3BF4FB]`} />
-        <div className="text-sm font-bold font-sans">{data.label}</div>
+        <div className="text-sm font-bold font-outfit">{data.label}</div>
       </div>
       {renderInputs()}
       <Handle
