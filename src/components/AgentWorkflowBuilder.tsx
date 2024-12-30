@@ -8,13 +8,19 @@ const AgentWorkflowBuilder: React.FC = () => {
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-[#10002B] to-[#3B0764] font-outfit relative overflow-hidden">
       <WorkInProgressBanner position="top" />
-      <div className="bg-[#240046] h-12 flex items-center px-4 z-10 relative"></div>
-      <div className="flex flex-grow">
-        <Toolbar />
-        <div className="flex-grow relative">
-          <ReactFlowProvider>
-            <WorkflowCanvas />
-          </ReactFlowProvider>
+      <div className="flex flex-col flex-grow">
+        <div className="bg-[#240046] h-12 flex items-center px-4 z-20 relative">
+          <h1 className="text-[#3BF4FB] font-permanent-marker text-xl">
+            Ability Builder
+          </h1>
+        </div>
+        <div className="flex flex-grow">
+          <Toolbar />
+          <div className="flex-grow relative">
+            <ReactFlowProvider>
+              <WorkflowCanvas />
+            </ReactFlowProvider>
+          </div>
         </div>
       </div>
       <WorkInProgressBanner position="bottom" />
@@ -32,7 +38,7 @@ const WorkInProgressBanner: React.FC<{ position: "top" | "bottom" }> = ({
         ${position === "top" ? "top-0" : "bottom-0"}
       `}
     >
-      <div className="animate-marquee whitespace-nowrap flex items-center">
+      <div className="animate-marquee whitespace-nowrap flex">
         {[...Array(10)].map((_, i) => (
           <div key={i} className="flex items-center mx-4">
             <AlertTriangle className="w-6 h-6 mr-2 text-[#10002B]" />
