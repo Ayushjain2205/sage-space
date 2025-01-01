@@ -14,8 +14,9 @@ const Navbar = () => {
         <div className="flex-1">
           <Link
             href="/"
-            className="font-permanent-marker text-2xl text-[#3BF4FB]"
+            className="flex items-center gap-2 font-permanent-marker text-2xl text-[#3BF4FB]"
           >
+            <img src="/sage.svg" alt="SageSpace" className="w-10 h-10" />
             SageSpace
           </Link>
         </div>
