@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { ImagePlus, AlertCircle, Upload, X, Plus } from "lucide-react";
-import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import BasicForm from "./BasicForm";
 import AdvancedForm from "./AdvancedForm";
+import CreatingPreviewPopup from "./CreatingPreviewPopup";
 
 interface FormData {
   name: string;
@@ -28,6 +27,7 @@ interface FormData {
   voiceChat: boolean;
   enableTelegram: boolean;
   launchType: string;
+  actionCapabilities: string[];
 }
 
 const COMPANION_TYPES = [
@@ -82,36 +82,46 @@ const ADJECTIVES = [
 
 export default function CreateCompanionForm() {
   const [formData, setFormData] = useState<FormData>({
-    name: "",
-    ticker: "",
-    description: "",
-    type: "",
+    name: "SageBot",
+    ticker: "SAGE",
+    description:
+      "An AI companion specializing in financial advice and market analysis. SageBot offers personalized insights on investments, budgeting, and financial planning.",
+    type: "Finance",
     image: null,
-    telegramBotName: "",
+    telegramBotName: "SageFinanceBot",
     telegramToken: "",
-    specialties: [],
+    specialties: ["Stocks", "Crypto", "Personal Finance"],
     knowledgeFiles: [],
-    knowledgeLinks: [],
-    personality: "",
-    firstMessage: "",
-    lore: "",
-    style: "",
-    adjectives: [],
-    framework: "eliza",
+    knowledgeLinks: [
+      "https://www.investopedia.com/",
+      "https://www.bloomberg.com/",
+      "https://www.wsj.com/",
+    ],
+    personality:
+      "Professional, analytical, and patient. Explains complex financial concepts in simple terms. Always up-to-date with the latest market trends and economic news.",
+    firstMessage:
+      "Hello! I'm SageBot, your AI financial advisor. How can I assist you with your financial goals today?",
+    lore: "Created by top financial experts and AI researchers to democratize access to high-quality financial advice. SageBot combines decades of financial wisdom with cutting-edge AI technology.",
+    style:
+      "Formal yet approachable, using clear language to explain financial concepts. Provides data-driven insights and personalized recommendations based on individual user needs and market conditions.",
+    adjectives: ["Intelligent", "Analytical", "Trustworthy", "Knowledgeable"],
+    framework: "goat",
     imageGeneration: false,
     videoGeneration: false,
-    voiceChat: false,
-    enableTelegram: false,
+    voiceChat: true,
+    enableTelegram: true,
     launchType: "normal",
+    actionCapabilities: ["trade", "staking", "defi"],
   });
 
   const [isAdvancedMode, setIsAdvancedMode] = useState(false);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [isCreating, setIsCreating] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
-    // Handle form submission
+    console.log("Submitting form data:", formData);
+    setIsCreating(true);
   };
 
   const handleInputChange = (
@@ -190,6 +200,12 @@ export default function CreateCompanionForm() {
           Create AI Companion
         </button>
       </div>
+
+      <CreatingPreviewPopup
+        isOpen={isCreating}
+        onClose={() => setIsCreating(false)}
+        formData={formData}
+      />
     </form>
   );
 }
