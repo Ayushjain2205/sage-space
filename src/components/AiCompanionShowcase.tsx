@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Star, Users, MessageSquare, Wallet } from "lucide-react";
 import CopyableAddress from "./CopyableAddress";
 
-interface Companion {
+interface Agent {
   id: number;
   name: string;
   image: string;
@@ -14,9 +14,10 @@ interface Companion {
   address: string;
   ticker: string;
   value: number;
+  botUsername: string;
 }
 
-const companions: Companion[] = [
+const agents: Agent[] = [
   {
     id: 1,
     name: "DeFiSage",
@@ -28,6 +29,7 @@ const companions: Companion[] = [
     address: "0x1234567890123456789012345678901234567890",
     ticker: "$DEFI",
     value: 1.25,
+    botUsername: "agentxweb3_bot",
   },
   {
     id: 2,
@@ -40,6 +42,7 @@ const companions: Companion[] = [
     address: "0x2345678901234567890123456789012345678901",
     ticker: "$FIT",
     value: 0.85,
+    botUsername: "agentxweb3_bot",
   },
   {
     id: 3,
@@ -52,6 +55,7 @@ const companions: Companion[] = [
     address: "0x3456789012345678901234567890123456789012",
     ticker: "$NFT",
     value: 1.15,
+    botUsername: "agentxweb3_bot",
   },
   {
     id: 4,
@@ -64,6 +68,7 @@ const companions: Companion[] = [
     address: "0x4567890123456789012345678901234567890123",
     ticker: "$CODE",
     value: 0.95,
+    botUsername: "agentxweb3_bot",
   },
   {
     id: 5,
@@ -76,6 +81,7 @@ const companions: Companion[] = [
     address: "0x5678901234567890123456789012345678901234",
     ticker: "$CHART",
     value: 1.35,
+    botUsername: "agentxweb3_bot",
   },
   {
     id: 6,
@@ -88,6 +94,7 @@ const companions: Companion[] = [
     address: "0x6789012345678901234567890123456789012345",
     ticker: "$STUDY",
     value: 0.75,
+    botUsername: "agentxweb3_bot",
   },
   {
     id: 7,
@@ -100,6 +107,7 @@ const companions: Companion[] = [
     address: "0x7890123456789012345678901234567890123456",
     ticker: "$TRAVEL",
     value: 0.65,
+    botUsername: "agentxweb3_bot",
   },
   {
     id: 8,
@@ -112,13 +120,12 @@ const companions: Companion[] = [
     address: "0x8901234567890123456789012345678901234567",
     ticker: "$GAME",
     value: 0.95,
+    botUsername: "agentxweb3_bot",
   },
 ];
 
 const AiCompanionShowcase: React.FC = () => {
-  const [selectedCompanion, setSelectedCompanion] = useState<Companion | null>(
-    null
-  );
+  const [selectedAgent, setSelectedAgent] = useState<Agent | null>(null);
 
   return (
     <section
@@ -129,19 +136,19 @@ const AiCompanionShowcase: React.FC = () => {
         className="text-5xl font-bold mb-12 font-permanent-marker"
         style={{ color: "#3BF4FB" }}
       >
-        Discover AI Companions
+        Discover AI Agents
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl w-full">
-        {companions.map((companion) => (
+        {agents.map((agent) => (
           <div
-            key={companion.id}
+            key={agent.id}
             className="bg-[#7B2CBF] p-6 rounded-lg shadow-lg cursor-pointer transition-transform hover:scale-105"
-            onClick={() => setSelectedCompanion(companion)}
+            onClick={() => setSelectedAgent(agent)}
           >
             <div className="mb-4 relative w-full pt-[100%]">
               <Image
-                src={companion.image}
-                alt={companion.name}
+                src={agent.image}
+                alt={agent.name}
                 layout="fill"
                 objectFit="cover"
                 className="rounded-lg"
@@ -152,17 +159,15 @@ const AiCompanionShowcase: React.FC = () => {
                 className="text-2xl font-bold font-space-grotesk"
                 style={{ color: "#C77DFF" }}
               >
-                {companion.name}
+                {agent.name}
               </h3>
               <div className="flex items-center">
                 <Star className="w-5 h-5 text-[#FFD700] mr-1" />
-                <span className="font-outfit">
-                  {companion.rating.toFixed(1)}
-                </span>
+                <span className="font-outfit">{agent.rating.toFixed(1)}</span>
               </div>
             </div>
             <div className="mb-4">
-              {companion.specialties.map((specialty, index) => (
+              {agent.specialties.map((specialty, index) => (
                 <span
                   key={index}
                   className="inline-block bg-[#3BF4FB] text-[#10002B] rounded-full px-3 py-1 text-sm font-semibold mr-2 mb-2 font-outfit"
@@ -174,33 +179,33 @@ const AiCompanionShowcase: React.FC = () => {
             <div className="flex justify-between items-center font-outfit text-sm mb-2">
               <div className="flex items-center">
                 <MessageSquare className="w-4 h-4 mr-1" />
-                <span>{companion.username}</span>
+                <span>{agent.username}</span>
               </div>
               <div className="flex items-center">
                 <Users className="w-4 h-4 mr-1" />
-                <span>{companion.users.toLocaleString()} users</span>
+                <span>{agent.users.toLocaleString()} users</span>
               </div>
             </div>
             <div className="flex justify-between items-center font-outfit text-sm mb-2">
               <div className="flex items-center">
                 <Wallet className="w-4 h-4 mr-1" />
-                <span>{companion.ticker}</span>
+                <span>{agent.ticker}</span>
               </div>
-              <span>${companion.value.toFixed(2)}</span>
+              <span>${agent.value.toFixed(2)}</span>
             </div>
             <div className="mt-2 text-sm">
-              <CopyableAddress address={companion.address} />
+              <CopyableAddress address={agent.address} />
             </div>
           </div>
         ))}
       </div>
-      {selectedCompanion && (
+      {selectedAgent && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-[#10002B] p-8 rounded-lg max-w-md w-full">
             <div className="mb-4 relative w-full pt-[100%]">
               <Image
-                src={selectedCompanion.image}
-                alt={selectedCompanion.name}
+                src={selectedAgent.image}
+                alt={selectedAgent.name}
                 layout="fill"
                 objectFit="cover"
                 className="rounded-lg"
@@ -210,49 +215,53 @@ const AiCompanionShowcase: React.FC = () => {
               className="text-3xl font-bold mb-4 font-space-grotesk"
               style={{ color: "#3BF4FB" }}
             >
-              {selectedCompanion.name}
+              {selectedAgent.name}
             </h3>
             <p className="mb-4 font-outfit">
-              Specialties: {selectedCompanion.specialties.join(", ")}
+              Specialties: {selectedAgent.specialties.join(", ")}
             </p>
             <div className="grid grid-cols-2 gap-4 mb-4 font-outfit">
               <div className="flex items-center">
                 <Star className="w-5 h-5 text-[#FFD700] mr-1" />
-                <span>{selectedCompanion.rating.toFixed(1)} rating</span>
+                <span>{selectedAgent.rating.toFixed(1)} rating</span>
               </div>
               <div className="flex items-center">
                 <Users className="w-5 h-5 mr-1" />
-                <span>{selectedCompanion.users.toLocaleString()} users</span>
+                <span>{selectedAgent.users.toLocaleString()} users</span>
               </div>
               <div className="flex items-center">
                 <MessageSquare className="w-5 h-5 mr-1" />
-                <span>{selectedCompanion.username}</span>
+                <span>{selectedAgent.username}</span>
               </div>
               <div className="flex items-center">
                 <Wallet className="w-5 h-5 mr-1" />
                 <span>
-                  {selectedCompanion.ticker} ($
-                  {selectedCompanion.value.toFixed(2)})
+                  {selectedAgent.ticker} ($
+                  {selectedAgent.value.toFixed(2)})
                 </span>
               </div>
             </div>
             <div className="mb-4 font-outfit text-sm">
               <span className="font-bold mr-2">Address:</span>
-              <CopyableAddress
-                address={selectedCompanion.address}
-                isPopup={true}
-              />
+              <CopyableAddress address={selectedAgent.address} isPopup={true} />
             </div>
             <button
               className="w-full py-2 rounded font-bold text-[#10002B] font-space-grotesk"
               style={{ backgroundColor: "#3BF4FB" }}
+              onClick={() =>
+                window.open(
+                  `https://t.me/${selectedAgent.botUsername}`,
+                  "_blank"
+                )
+              }
             >
               Start Conversation
+              <i className="fa-brands fa-telegram fa-xl ml-2"></i>
             </button>
             <button
               className="w-full mt-4 py-2 rounded font-bold font-space-grotesk"
               style={{ backgroundColor: "#7B2CBF", color: "#E0AAFF" }}
-              onClick={() => setSelectedCompanion(null)}
+              onClick={() => setSelectedAgent(null)}
             >
               Close
             </button>
