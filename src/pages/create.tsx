@@ -14,7 +14,7 @@ export default function CreatePage() {
             className="text-4xl font-bold mb-8 font-permanent-marker text-center"
             style={{ color: "#3BF4FB" }}
           >
-            Create New AI Companion
+            Create Sage
           </h1>
           <CreateCompanionForm />
         </div>

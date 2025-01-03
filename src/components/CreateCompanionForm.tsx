@@ -4,31 +4,7 @@ import { Label } from "@/components/ui/label";
 import BasicForm from "./BasicForm";
 import AdvancedForm from "./AdvancedForm";
 import CreatingPreviewPopup from "./CreatingPreviewPopup";
-
-interface FormData {
-  name: string;
-  ticker: string;
-  description: string;
-  type: string;
-  image: string | null;
-  telegramBotName: string;
-  telegramToken: string;
-  specialties: string[];
-  knowledgeFiles: File[];
-  knowledgeLinks: string[];
-  personality: string;
-  firstMessage: string;
-  lore: string;
-  style: string;
-  adjectives: string[];
-  framework: "eliza" | "goat" | "zerepy";
-  imageGeneration: boolean;
-  videoGeneration: boolean;
-  voiceChat: boolean;
-  enableTelegram: boolean;
-  launchType: string;
-  actionCapabilities: string[];
-}
+import { FormData } from "@/types/form";
 
 const COMPANION_TYPES = [
   "Finance",
@@ -150,7 +126,7 @@ export default function CreateCompanionForm() {
       <div className="bg-[#7B2CBF] rounded-lg p-8 mb-8 shadow-lg">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-2xl font-bold text-[#3BF4FB] font-space-grotesk">
-            Create AI Companion
+            Create AI Agent
           </h1>
           <div className="flex items-center space-x-2">
             <Switch

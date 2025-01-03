@@ -29,7 +29,7 @@ const agents: Agent[] = [
     address: "0x1234567890123456789012345678901234567890",
     ticker: "$DEFI",
     value: 1.25,
-    botUsername: "agentxweb3_bot",
+    botUsername: "defisage_bot",
   },
   {
     id: 2,
@@ -42,7 +42,7 @@ const agents: Agent[] = [
     address: "0x2345678901234567890123456789012345678901",
     ticker: "$FIT",
     value: 0.85,
-    botUsername: "agentxweb3_bot",
+    botUsername: "FitnessbudddyBot",
   },
   {
     id: 3,
@@ -55,7 +55,7 @@ const agents: Agent[] = [
     address: "0x3456789012345678901234567890123456789012",
     ticker: "$NFT",
     value: 1.15,
-    botUsername: "agentxweb3_bot",
+    botUsername: "FitnessbudddyBot",
   },
   {
     id: 4,
@@ -68,7 +68,7 @@ const agents: Agent[] = [
     address: "0x4567890123456789012345678901234567890123",
     ticker: "$CODE",
     value: 0.95,
-    botUsername: "agentxweb3_bot",
+    botUsername: "FitnessbudddyBot",
   },
   {
     id: 5,
@@ -81,7 +81,7 @@ const agents: Agent[] = [
     address: "0x5678901234567890123456789012345678901234",
     ticker: "$CHART",
     value: 1.35,
-    botUsername: "agentxweb3_bot",
+    botUsername: "FitnessbudddyBot",
   },
   {
     id: 6,
@@ -94,7 +94,7 @@ const agents: Agent[] = [
     address: "0x6789012345678901234567890123456789012345",
     ticker: "$STUDY",
     value: 0.75,
-    botUsername: "agentxweb3_bot",
+    botUsername: "FitnessbudddyBot",
   },
   {
     id: 7,
@@ -107,7 +107,7 @@ const agents: Agent[] = [
     address: "0x7890123456789012345678901234567890123456",
     ticker: "$TRAVEL",
     value: 0.65,
-    botUsername: "agentxweb3_bot",
+    botUsername: "FitnessbudddyBot",
   },
   {
     id: 8,
@@ -120,7 +120,7 @@ const agents: Agent[] = [
     address: "0x8901234567890123456789012345678901234567",
     ticker: "$GAME",
     value: 0.95,
-    botUsername: "agentxweb3_bot",
+    botUsername: "FitnessbudddyBot",
   },
 ];
 

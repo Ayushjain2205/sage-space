@@ -6,10 +6,11 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import SimulatorPopup from "./SimulatorPopup";
+import { FormData } from "@/types/form";
 
 interface AdvancedFormProps {
-  formData: any;
-  setFormData: React.Dispatch<React.SetStateAction<any>>;
+  formData: FormData;
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
   handleInputChange: (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
@@ -53,19 +54,19 @@ export default function AdvancedForm({
   const [isSimulatorOpen, setIsSimulatorOpen] = useState(false);
 
   const handleSpecialtyToggle = (specialty: string) => {
-    setFormData((prev) => ({
+    setFormData((prev: FormData) => ({
       ...prev,
       specialties: prev.specialties.includes(specialty)
-        ? prev.specialties.filter((s) => s !== specialty)
+        ? prev.specialties.filter((s: string) => s !== specialty)
         : [...prev.specialties, specialty],
     }));
   };
 
   const handleAdjectiveToggle = (adjective: string) => {
-    setFormData((prev) => ({
+    setFormData((prev: FormData) => ({
       ...prev,
       adjectives: prev.adjectives.includes(adjective)
-        ? prev.adjectives.filter((a) => a !== adjective)
+        ? prev.adjectives.filter((a: string) => a !== adjective)
         : [...prev.adjectives, adjective],
     }));
   };
@@ -75,7 +76,7 @@ export default function AdvancedForm({
       customSpecialty.trim() &&
       !formData.specialties.includes(customSpecialty.trim())
     ) {
-      setFormData((prev) => ({
+      setFormData((prev: FormData) => ({
         ...prev,
         specialties: [...prev.specialties, customSpecialty.trim()],
       }));
@@ -88,7 +89,7 @@ export default function AdvancedForm({
       customAdjective.trim() &&
       !formData.adjectives.includes(customAdjective.trim())
     ) {
-      setFormData((prev) => ({
+      setFormData((prev: FormData) => ({
         ...prev,
         adjectives: [...prev.adjectives, customAdjective.trim()],
       }));
@@ -98,22 +99,24 @@ export default function AdvancedForm({
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    setFormData((prev) => ({
+    setFormData((prev: FormData) => ({
       ...prev,
       knowledgeFiles: [...prev.knowledgeFiles, ...files],
     }));
   };
 
   const handleRemoveFile = (index: number) => {
-    setFormData((prev) => ({
+    setFormData((prev: FormData) => ({
       ...prev,
-      knowledgeFiles: prev.knowledgeFiles.filter((_, i) => i !== index),
+      knowledgeFiles: prev.knowledgeFiles.filter(
+        (_: File, i: number) => i !== index
+      ),
     }));
   };
 
   const handleAddLink = () => {
     if (newLink.trim()) {
-      setFormData((prev) => ({
+      setFormData((prev: FormData) => ({
         ...prev,
         knowledgeLinks: [...prev.knowledgeLinks, newLink.trim()],
       }));
@@ -122,14 +125,16 @@ export default function AdvancedForm({
   };
 
   const handleRemoveLink = (index: number) => {
-    setFormData((prev) => ({
+    setFormData((prev: FormData) => ({
       ...prev,
-      knowledgeLinks: prev.knowledgeLinks.filter((_, i) => i !== index),
+      knowledgeLinks: prev.knowledgeLinks.filter(
+        (_: string, i: number) => i !== index
+      ),
     }));
   };
 
   const handleActionCapabilityToggle = (capability: string) => {
-    setFormData((prev) => ({
+    setFormData((prev: FormData) => ({
       ...prev,
       actionCapabilities: prev.actionCapabilities?.includes(capability)
         ? prev.actionCapabilities.filter((c: string) => c !== capability)
@@ -148,7 +153,7 @@ export default function AdvancedForm({
           defaultValue="normal"
           value={formData.launchType}
           onValueChange={(value) =>
-            setFormData((prev) => ({ ...prev, launchType: value }))
+            setFormData((prev: FormData) => ({ ...prev, launchType: value }))
           }
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
         >
@@ -293,7 +298,7 @@ export default function AdvancedForm({
           defaultValue="eliza"
           value={formData.framework}
           onValueChange={(value) =>
-            setFormData((prev) => ({ ...prev, framework: value }))
+            setFormData((prev: FormData) => ({ ...prev, framework: value }))
           }
           className="grid grid-cols-1 md:grid-cols-3 gap-4"
         >
@@ -573,8 +578,11 @@ export default function AdvancedForm({
             <Checkbox
               id="image-generation"
               checked={formData.imageGeneration}
-              onCheckedChange={(checked) =>
-                setFormData((prev) => ({ ...prev, imageGeneration: checked }))
+              onCheckedChange={(checked: boolean | "indeterminate") =>
+                setFormData((prev: FormData) => ({
+                  ...prev,
+                  imageGeneration: checked === true,
+                }))
               }
             />
             <label
@@ -588,8 +596,11 @@ export default function AdvancedForm({
             <Checkbox
               id="video-generation"
               checked={formData.videoGeneration}
-              onCheckedChange={(checked) =>
-                setFormData((prev) => ({ ...prev, videoGeneration: checked }))
+              onCheckedChange={(checked: boolean | "indeterminate") =>
+                setFormData((prev: FormData) => ({
+                  ...prev,
+                  videoGeneration: checked === true,
+                }))
               }
             />
             <label
@@ -603,8 +614,11 @@ export default function AdvancedForm({
             <Checkbox
               id="voice-chat"
               checked={formData.voiceChat}
-              onCheckedChange={(checked) =>
-                setFormData((prev) => ({ ...prev, voiceChat: checked }))
+              onCheckedChange={(checked: boolean | "indeterminate") =>
+                setFormData((prev: FormData) => ({
+                  ...prev,
+                  voiceChat: checked === true,
+                }))
               }
             />
             <label
