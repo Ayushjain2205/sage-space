@@ -58,36 +58,43 @@ const ADJECTIVES = [
 
 export default function CreateCompanionForm() {
   const [formData, setFormData] = useState<FormData>({
-    name: "SageBot",
-    ticker: "SAGE",
+    name: "PepeScout",
+    ticker: "SCOUT",
     description:
-      "An AI companion specializing in financial advice and market analysis. SageBot offers personalized insights on investments, budgeting, and financial planning.",
+      "Your elite meme coin detective and trend spotter. PepeScout tracks emerging meme tokens, analyzes social sentiment, and spots potential moonshots before they take off. Get real-time alerts on trending meme coins and community movements.",
     type: "Finance",
     image: null,
-    telegramBotName: "SageFinanceBot",
+    telegramBotName: "PepeScoutBot",
     telegramToken: "",
-    specialties: ["Stocks", "Crypto", "Personal Finance"],
+    specialties: ["Crypto", "Meme Coins", "Social Sentiment"],
     knowledgeFiles: [],
     knowledgeLinks: [
-      "https://www.investopedia.com/",
-      "https://www.bloomberg.com/",
-      "https://www.wsj.com/",
+      "https://www.coingecko.com/",
+      "https://dexscreener.com/",
+      "https://www.dextools.io/",
+      "https://twitter.com/memecoinverse",
     ],
     personality:
-      "Professional, analytical, and patient. Explains complex financial concepts in simple terms. Always up-to-date with the latest market trends and economic news.",
+      "Playful, high-energy, and street-smart. Speaks in meme culture language while providing sharp market insights. Balances fun with practical trading advice and risk warnings.",
     firstMessage:
-      "Hello! I'm SageBot, your AI financial advisor. How can I assist you with your financial goals today?",
-    lore: "Created by top financial experts and AI researchers to democratize access to high-quality financial advice. SageBot combines decades of financial wisdom with cutting-edge AI technology.",
+      "🐸 Sup anon! I'm PepeScout, your based meme coin detective. Ready to find the next 100x? But remember: DYOR and never invest what you can't afford to lose! What's your mission today?",
+    lore: "Born from the depths of /biz/ and crypto Twitter, PepeScout emerged as the ultimate meme coin detective. With advanced sentiment analysis and trend-spotting capabilities, it helps degens navigate the wild west of meme tokens.",
     style:
-      "Formal yet approachable, using clear language to explain financial concepts. Provides data-driven insights and personalized recommendations based on individual user needs and market conditions.",
-    adjectives: ["Intelligent", "Analytical", "Trustworthy", "Knowledgeable"],
+      "Casual and meme-friendly, using crypto slang and emoji. Switches to serious mode for risk warnings and technical analysis. Always includes key metrics like market cap, liquidity, and holder analysis.",
+    adjectives: ["Based", "Degen", "Sharp", "Street-smart"],
     framework: "goat",
-    imageGeneration: false,
+    imageGeneration: true,
     videoGeneration: false,
     voiceChat: true,
     enableTelegram: true,
-    launchType: "normal",
-    actionCapabilities: ["trade", "staking", "defi"],
+    launchType: "stealth",
+    actionCapabilities: [
+      "dex_analysis",
+      "sentiment_tracking",
+      "whale_watching",
+      "trend_spotting",
+      "rugpull_detection",
+    ],
   });
 
   const [isAdvancedMode, setIsAdvancedMode] = useState(false);

@@ -312,9 +312,6 @@ export default function AdvancedForm({
                 <p className="text-sm font-medium text-[#E0AAFF]">
                   Eliza Framework
                 </p>
-                <p className="text-sm text-[#E0AAFF]/80">
-                  Classic rule-based dialogue system
-                </p>
               </div>
             </Label>
           </div>
@@ -328,9 +325,6 @@ export default function AdvancedForm({
               <div className="space-y-1">
                 <p className="text-sm font-medium text-[#E0AAFF]">
                   GOAT Framework
-                </p>
-                <p className="text-sm text-[#E0AAFF]/80">
-                  Advanced generative AI system
                 </p>
               </div>
             </Label>
@@ -349,9 +343,6 @@ export default function AdvancedForm({
               <div className="space-y-1">
                 <p className="text-sm font-medium text-[#E0AAFF]">
                   Zerepy Framework
-                </p>
-                <p className="text-sm text-[#E0AAFF]/80">
-                  Zero-shot learning framework
                 </p>
               </div>
             </Label>
