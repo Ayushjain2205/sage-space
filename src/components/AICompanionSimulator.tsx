@@ -14,6 +14,7 @@ interface AICompanionSimulatorProps {
   aiName: string;
   firstMessage: string;
   personality: string;
+  avatarUrl?: string;
 }
 
 export default function AICompanionSimulator({
